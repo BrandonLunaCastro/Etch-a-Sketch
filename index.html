@@ -11,15 +11,22 @@
          <h1 id="title" >Etch a Sketch</h1>
         <section class="sec">
             <div class="options">
-                <!--  <button data-longitud="64" >64x64</button>
-                 <button data-longitud="32" >32x32</button>
-                 <button data-longitud="16" >16x16</button>
-                 <button data-longitud="8" >8x8</button> -->
-                 <input id="range" type="range" min="2" max="64">
-                 <span class="range-value"></span> 
-                 <span>GRID</span>
-             </div>
-             <div class="container"></div>    
+                <div class="sec-range">
+                    <input id="range" type="range" min="2" max="64" value="8">
+                    <span class="range-value"></span> 
+                    <span>GRID</span>   
+                </div>
+                <div class="sec-color">
+                    <input  type="color"> 
+                   <span>Select Color</span>
+                </div>
+                <div class="buttons">
+                    <button class="id">Reset</button>
+                    <button class="id">Archer Mode</button>
+                    <button class="id"></button>
+                </div>
+            </div>
+            <div class="container"></div>    
         </section> 
     </main>
     <script src="js/index.js" ></script>

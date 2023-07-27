@@ -16,12 +16,9 @@ const draw = (dimension) => {
     
               div.classList.add("square")
               fragment.appendChild(div) 
-              
-               
-                index++;
+              index++;
             }
-           
-           } 
+        } 
            let clone = document.importNode(fragment)
            container.appendChild(fragment)
         drawSquare(".square",grid)  
@@ -49,7 +46,7 @@ let range = document.querySelector("#range"),
 
 })
 
- window.addEventListener("DOMContentLoaded",draw(5))
+ window.addEventListener("DOMContentLoaded",draw(8))
 
 /* let btns = document.querySelectorAll("[data-longitud]")
 console.log(btns)
