@@ -1,7 +1,8 @@
 let container = document.querySelector(".container");
+localStorage.setItem('border',false)
 
-const draw = (dimension) => {
-    
+
+const draw = (dimension) => {   
     let grid = 483/dimension;
     let fragment = document.createDocumentFragment();
 
@@ -24,6 +25,9 @@ const drawSquare = (clases,grid) =>{
     nodo.forEach((el)=>{
          el.style.width = `${grid}px`;
          el.style.height = `${grid}px`;
+         localStorage.getItem('border') === "true" 
+          ? el.classList.add("active-border") 
+          : el.classList.remove("active-border");
     })
 } 
 
@@ -50,6 +54,27 @@ color.addEventListener('change',e => {
     colorSelected = e.target.value; 
 })
 
+/* Seccion de botones */
+let btns = document.querySelector(".buttons")
+console.log(btns)
+ 
+btns.addEventListener("click",e => {
+    if(e.target.matches(".grid-lines")){
+         let squares = document.querySelectorAll(".square");
+         squares.forEach((square) => {
+             square.classList.toggle("active-border");   
+        
+            if(square.className.includes("active-border")){
+                 localStorage.setItem("border",true);
+            }else{
+                localStorage.setItem("border",false);
+        }
+    })
+    }
+
+
+})
+ 
 
 /*Seccion de eventos para pintar*/
 
@@ -75,5 +100,6 @@ container.addEventListener("mouseup",removeEvent)
 
 window.addEventListener("DOMContentLoaded",e => {
     draw(8);
+   
 
 });
