@@ -130,3 +130,9 @@ input[type="color"]::-webkit-color-swatch{
 .filter{
     filter: brightness(100%);
 }
+
+footer{
+    display: flex;
+    gap: 16px;
+    
+}

@@ -1,6 +1,5 @@
 let container = document.querySelector(".container");
-localStorage.setItem('border',false)
-
+localStorage.setItem('border',false);
 
 const draw = (dimension) => {   
     let grid = 483/dimension;
@@ -32,6 +31,16 @@ const drawSquare = (clases,grid) =>{
     })
 } 
 
+const classUpdate = (clase) => {
+    document.querySelectorAll("button").forEach((e)=> {    
+        if(clase === "clear" || !(e.className === clase)){
+            e.classList.remove("press");
+        }else if(e.className === clase){
+            document.querySelector(`.${clase}`).classList.add("press");
+        } 
+    })
+};
+
 //funcion de los colores random
 
 const randomRgb = () => Math.round(Math.random() * (255 - 0 + 1) + 0 ).toFixed(0);    
@@ -52,27 +61,17 @@ let range = document.querySelector("#range"),
 
 /* Selecionamos el color del input color*/
 
-let color = document.getElementById("input-color")
+let color = document.getElementById("input-color");
   
 
-color.addEventListener('change',e => {
-    localStorage.setItem("color",e.target.value)
-    localStorage.removeItem("opacity-mode")
+color.addEventListener('input',e => {
+    localStorage.setItem("color",e.target.value);
+    localStorage.removeItem("opacity-mode");
 })
 
 /* Seccion de botones */
 let btns = document.querySelector(".buttons")
 
-document.querySelectorAll("button").forEach((btn)=> {
-   console.log(btn)
-    btn.addEventListener("click",(event)=>{
-        event.target.classList.add("press");     
-    })
-    btn.classList.remove("press")
-});
-
-
- 
 btns.addEventListener("click",e => {
     let squares = document.querySelectorAll(".square");
     
@@ -81,7 +80,8 @@ btns.addEventListener("click",e => {
             square.setAttribute("data-dark","100")
         });
         localStorage.removeItem("opacity-mode")
-        }
+        
+    }
 
     if(!e.target.matches(".random-mode") && !e.target.matches(".grid-lines")){
         localStorage.removeItem("randomMode")
@@ -89,32 +89,31 @@ btns.addEventListener("click",e => {
     }
 
     //boton para limpiar la pizarra
-    if(e.target.matches(".reset")){
+    if(e.target.matches(".clear")){
         squares.forEach((square) =>{
             square.style.filter="brightness(100%)";
-            square.style.backgroundColor = "#fefefe"       
+            square.style.backgroundColor = "#fefefe";       
         })
-        
+        classUpdate("clear")
     }
     //boton para eliminar el local storagede 'random mode'
     if(e.target.matches(".color-mode")){
-      //  localStorage.removeItem("randomMode");
         localStorage.setItem("color",color.value);
-       
+        
+        classUpdate("color-mode")
     }
-
     //Boton para usar la funcion de colores aleatorios
     if(e.target.matches(".random-mode")){
         localStorage.setItem("randomMode",true)
         localStorage.setItem("color",`rgb(${randomRgb()},${randomRgb()},${randomRgb()})`)
+        classUpdate("random-mode")
     }
-
     //boton para hacer uso de la funcion de opacidad
     if(e.target.matches(".opacity-mode")){
         localStorage.setItem("opacity-mode","active") 
         localStorage.removeItem("randomMode")
+        classUpdate("opacity-mode")
     }
-
     //boton grid-lines
     if(e.target.matches(".grid-lines")){   
          squares.forEach((square) => {
@@ -124,14 +123,15 @@ btns.addEventListener("click",e => {
             }else{
                  localStorage.setItem("border",false);
         }
+       
     })
+    classUpdate("grid-lines")
+
     }
 
-
 })
+
 /*Seccion de eventos para pintar*/
-
-
 const addOpacity = (e) => {
     let valorData = Number(e.target.dataset.dark)
         if(valorData !== 0){
@@ -139,11 +139,10 @@ const addOpacity = (e) => {
             e.target.setAttribute(`data-dark`,`${valorData}`)
             e.target.style.filter = `brightness(${valorData}%)`      
        }
-    
 }
 
-
 const paintSquare = (e) => {
+    
     localStorage.getItem("randomMode") === "true" 
         ? e.target.style.backgroundColor = `rgb(${randomRgb()},${randomRgb()},${randomRgb()})`
         : localStorage.getItem("opacity-mode") === "active"
