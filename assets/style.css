@@ -83,15 +83,12 @@ input[type="color"]::-webkit-color-swatch{
     align-items: start;
     gap: 26px;
 }
-/* .buttons button:nth-child(1){
-    background-color: rgb(180, 180, 180);
-    
-} */
+
 .buttons > button{
     border-radius: 10px;
     width: 200px;
     height: 42px;
-    transition: all 0.8s ease;
+    transition: all 0.5s ease;
     border: none;
     background-color: rgb(255, 149, 138);
 }
@@ -100,6 +97,12 @@ input[type="color"]::-webkit-color-swatch{
     cursor: pointer;
     transform: translateY(-10px); 
     box-shadow: 0px 0px 8px 0px rgb(244, 85, 67);   
+}
+
+.press{
+   
+     filter: brightness(80%); 
+   
 }
 
 
@@ -124,3 +127,6 @@ input[type="color"]::-webkit-color-swatch{
     border: 1px outset black;
 }
 
+.filter{
+    filter: brightness(100%);
+}

@@ -57,26 +57,50 @@ let color = document.getElementById("input-color")
 
 color.addEventListener('change',e => {
     localStorage.setItem("color",e.target.value)
+    localStorage.removeItem("opacity-mode")
 })
 
 /* Seccion de botones */
 let btns = document.querySelector(".buttons")
-console.log(btns)
+
+document.querySelectorAll("button").forEach((btn)=> {
+   console.log(btn)
+    btn.addEventListener("click",(event)=>{
+        event.target.classList.add("press");     
+    })
+    btn.classList.remove("press")
+});
+
+
  
 btns.addEventListener("click",e => {
     let squares = document.querySelectorAll(".square");
     
+    if(!e.target.matches(".opacity-mode") && !e.target.matches(".grid-lines") ){
+        squares.forEach((square)=>{
+            square.setAttribute("data-dark","100")
+        });
+        localStorage.removeItem("opacity-mode")
+        }
+
+    if(!e.target.matches(".random-mode") && !e.target.matches(".grid-lines")){
+        localStorage.removeItem("randomMode")
+
+    }
+
     //boton para limpiar la pizarra
     if(e.target.matches(".reset")){
         squares.forEach((square) =>{
-            square.style.backgroundColor = "#fefefe"
+            square.style.filter="brightness(100%)";
+            square.style.backgroundColor = "#fefefe"       
         })
-        localStorage.removeItem("opacity-mode")
+        
     }
     //boton para eliminar el local storagede 'random mode'
     if(e.target.matches(".color-mode")){
-        localStorage.removeItem("randomMode");
+      //  localStorage.removeItem("randomMode");
         localStorage.setItem("color",color.value);
+       
     }
 
     //Boton para usar la funcion de colores aleatorios
@@ -87,7 +111,8 @@ btns.addEventListener("click",e => {
 
     //boton para hacer uso de la funcion de opacidad
     if(e.target.matches(".opacity-mode")){
-        localStorage.setItem("opacity-mode","active")     
+        localStorage.setItem("opacity-mode","active") 
+        localStorage.removeItem("randomMode")
     }
 
     //boton grid-lines
@@ -106,14 +131,24 @@ btns.addEventListener("click",e => {
 })
 /*Seccion de eventos para pintar*/
 
+
+const addOpacity = (e) => {
+    let valorData = Number(e.target.dataset.dark)
+        if(valorData !== 0){
+            valorData = valorData - 10 
+            e.target.setAttribute(`data-dark`,`${valorData}`)
+            e.target.style.filter = `brightness(${valorData}%)`      
+       }
+    
+}
+
+
 const paintSquare = (e) => {
     localStorage.getItem("randomMode") === "true" 
         ? e.target.style.backgroundColor = `rgb(${randomRgb()},${randomRgb()},${randomRgb()})`
-        : e.target.style.backgroundColor = localStorage.getItem("color");
-            
-        
-        /*  localStorage.getItem("opacity-mode") === "active" 
-            ? e.target.style.filter = `brightness(${Number(e.target.dataset.dark) - 10}%)`  */
+        : localStorage.getItem("opacity-mode") === "active"
+          ? addOpacity(e)
+          : e.target.style.backgroundColor = localStorage.getItem("color");   
 }
 
 const mousePosition = (e) => {
